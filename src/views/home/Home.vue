@@ -8,6 +8,7 @@
       ref="outerNav"
       v-show="isShowOuterNav"
     />
+    <BackTop v-show="isShowBackTop" @backtop="handleBacktop" />
     <Scroll
       class="home-scroll"
       :scrollOptions="homeScrollOptions"
@@ -34,6 +35,9 @@ import HomeRecommend from "./childComps/HomeRecommend";
 import HomeTrend from "./childComps/HomeTrend";
 import NavBar from "ct/navBar/NavBar";
 import GoodList from "ct/goodList/GoodList";
+// import BackTop from "ct/backTop/BackTop";
+// 从 mixin 中引入 backtop
+import { backTopMixin } from "common/mixins";
 // 获取数据
 import { getMultiData, getOneTypeGoods } from "network/home";
 // 一些小配置
@@ -41,6 +45,7 @@ import { homeScrollOptions } from "common/const";
 
 export default {
   name: "Home",
+  mixins: [backTopMixin],
   components: {
     HomeTopBar,
     Scroll,
@@ -128,7 +133,10 @@ export default {
     handleCurrentPositionY(y) {
       // console.log("实时监听滚动位置", y);
       // 根据 innerNavOffsetTop 的高度判断是否显示 outerNav
+      // console.log(y);
       this.isShowOuterNav = y >= this.innerNavOffsetTop;
+      // 这两个值都是 mixin 中来的
+      this.isShowBackTop = y >= this.showBackTopHeight;
     },
     // 2. navbar 事件
     handleChangeNavIndex(index) {

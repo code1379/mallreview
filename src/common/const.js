@@ -5,3 +5,6 @@ export const homeScrollOptions = {
   probeType: 2,
   pullUpLoad: true
 }
+
+export const SHOW_BACKTOP_HEIGHT = 1000
+SHOW_BACKTOP_HEIGHT 
