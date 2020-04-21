@@ -1,12 +1,16 @@
 <template>
-  <div class="home">this is home page</div>
+  <div class="home">
+    <HomeTopBar/>
+    this is home page</div>
 </template>
 
 <script>
 // @ is an alias to /src
-
+import HomeTopBar from './childComps/HomeTopBar'
 export default {
   name: "Home",
-  components: {}
+  components: {
+    HomeTopBar
+  }
 };
 </script>
