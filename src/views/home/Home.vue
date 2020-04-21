@@ -12,6 +12,7 @@
       <HomeSwiper :bannerList="bannerList" />
       <HomeRecommend :recommendList="recommendList" />
       <HomeTrend />
+      <NavBar :currentIndex="currentIndex" @sendChangeIndex="handleChangeNavIndex" />
       <div class="wrapper">
         <p>1</p>
         <p>2</p>
@@ -125,6 +126,7 @@ import Scroll from "cn/scroll/Scroll";
 import HomeSwiper from "./childComps/HomeSwiper";
 import HomeRecommend from "./childComps/HomeRecommend";
 import HomeTrend from "./childComps/HomeTrend";
+import NavBar from "ct/navBar/NavBar";
 // 获取数据
 import { getMultiData } from "network/home";
 // 一些小配置
@@ -137,7 +139,8 @@ export default {
     Scroll,
     HomeSwiper,
     HomeRecommend,
-    HomeTrend
+    HomeTrend,
+    NavBar
   },
   data() {
     return {
@@ -146,7 +149,9 @@ export default {
       // 2. swiper 的图片列表
       bannerList: [],
       // 3. 推荐图片列表
-      recommendList: []
+      recommendList: [],
+      // 4.navBar CurrentIndex
+      currentIndex: 0
     };
   },
   mounted() {
@@ -173,6 +178,10 @@ export default {
     },
     handleCurrentPositionY(y) {
       // console.log("实时监听滚动位置", y);
+    },
+    // 2. navbar 事件
+    handleChangeNavIndex(index) {
+      this.currentIndex = index;
     }
   }
 };

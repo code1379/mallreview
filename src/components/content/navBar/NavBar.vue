@@ -4,7 +4,8 @@
       class="item"
       v-for="(title, index) in titles"
       :key="title"
-      :class="{active: index === this.currentIndex}"
+      :class="{active: index === currentIndex}"
+      @click="sendChangeIndex(index)"
     >
       <span class="title">{{title}}</span>
     </div>
@@ -25,15 +26,28 @@ export default {
       type: Number,
       default: 0
     }
+  },
+  methods: {
+    sendChangeIndex(index) {
+      this.$emit("sendChangeIndex", index);
+    }
   }
 };
 </script>
 <style lang="stylus" scoped>
+@import '~assets/stylus/variables.styl'
 .navbar
-  line-height: 40px
   display: flex
+  background-color: #fff
   .item
     flex: 1
-    line-height: 20px
-    // .title
+    line-height: 40px
+    text-align: center
+    &.active
+      color: $textHighlightColor
+      .title
+        border-bottom: 2px solid $textHighlightColor
+    .title
+      line-height: 20px
+      padding: 5px 8px
 </style>
