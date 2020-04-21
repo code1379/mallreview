@@ -6,16 +6,15 @@ export const backTopMixin = {
   components: {
     BackTop
   },
-  data() {
-    return {
-      isShowBackTop: false,
-      showBackTopHeight: SHOW_BACKTOP_HEIGHT
-    }
-  },
   methods: {
     handleBacktop() {
       this.scroll.scrollTo(0)
     }
   },
+  computed: {
+    isShowBackTop() {
+      return this.currentY >= SHOW_BACKTOP_HEIGHT
+    }
+  }
 }
 

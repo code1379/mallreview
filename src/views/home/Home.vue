@@ -72,7 +72,9 @@ export default {
         { type: "sell", page: 1, goods: [], isEnd: false }
       ],
       // 6. 是否显示outerNav
-      isShowOuterNav: false
+      isShowOuterNav: false,
+      // 7. 设置初始的currentY
+      currentY: 0
     };
   },
   mounted() {
@@ -134,9 +136,8 @@ export default {
       // console.log("实时监听滚动位置", y);
       // 根据 innerNavOffsetTop 的高度判断是否显示 outerNav
       // console.log(y);
+      this.currentY = y;
       this.isShowOuterNav = y >= this.innerNavOffsetTop;
-      // 这两个值都是 mixin 中来的
-      this.isShowBackTop = y >= this.showBackTopHeight;
     },
     // 2. navbar 事件
     handleChangeNavIndex(index) {
