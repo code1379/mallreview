@@ -9,6 +9,7 @@
       ref="scroll"
     >
       <!-- 首页上的内容插入到这里 -->
+      <HomeSwiper :bannerList="bannerList" />
       <div class="wrapper">
         <p>1</p>
         <p>2</p>
@@ -118,7 +119,7 @@
 <script>
 // @ is an alias to /src
 import HomeTopBar from "./childComps/HomeTopBar";
-
+import HomeSwiper from "./childComps/HomeSwiper";
 import Scroll from "cn/scroll/Scroll";
 // 获取数据
 import { getMultiData } from "network/home";
@@ -129,7 +130,8 @@ export default {
   name: "Home",
   components: {
     HomeTopBar,
-    Scroll
+    Scroll,
+    HomeSwiper
   },
   data() {
     return {

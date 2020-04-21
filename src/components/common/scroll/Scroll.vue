@@ -15,9 +15,11 @@
 <script>
 import BScroll from "@better-scroll/core";
 import Pullup from "@better-scroll/pull-up";
+import PullDown from "@better-scroll/pull-down";
 import ObserveDOM from "@better-scroll/observe-dom";
 
 BScroll.use(Pullup);
+BScroll.use(PullDown);
 BScroll.use(ObserveDOM);
 
 export default {
