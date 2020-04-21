@@ -80,9 +80,6 @@ export default {
     handlePullingUp() {
       console.log("监听到上拉事件");
       this.$emit("sendPullUpEvent");
-      setTimeout(() => {
-        this.scroll.finishPullUp();
-      }, 3000);
     },
     // scroll 图片加载，没有及时刷新高度，有可能导致滚动不了
     // 手动调用 refresh 方法
@@ -94,10 +91,15 @@ export default {
       this.scroll && this.scroll.scrollTo && this.scroll.scrollTo(0, -y, delay);
     },
     // 滚动到某个元素位置
-    scrollToElement(el, time = 500) {
+    scrollToElement(el, time = 0) {
       this.scroll &&
         this.scroll.scrollToElement &&
-        this.scroll.scroscrollToElementllTo(el.time);
+        this.scroll.scrollToElement(el, time);
+    },
+    // 完成上拉加载更多
+    finishPullUp() {
+      this.scroll && this.scroll.finishPullUp && this.scroll.finishPullUp();
+      // console.log("完成上拉刷新");
     }
   }
 };
