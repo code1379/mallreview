@@ -8,7 +8,7 @@
       @sendCurrentPositionY="handleCurrentPositionY"
       ref="scroll"
     >
-      <!-- 首页上的内容插入到这里面 -->
+      <!-- 首页上的内容插入到这里 -->
       <div class="wrapper">
         <p>1</p>
         <p>2</p>
