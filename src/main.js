@@ -4,6 +4,9 @@ import router from './router'
 import store from './store'
 // 引入样式文件
 import "assets/stylus/index.styl"
+// 事件总线
+Vue.prototype.$bus = new Vue()
+
 
 Vue.config.productionTip = false
 
