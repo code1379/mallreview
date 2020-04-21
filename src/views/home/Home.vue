@@ -118,7 +118,13 @@
 <script>
 // @ is an alias to /src
 import HomeTopBar from "./childComps/HomeTopBar";
+
 import Scroll from "cn/scroll/Scroll";
+// 获取数据
+import { getMultiData } from "network/home";
+// 一些小配置
+import { homeScrollOptions } from "common/const";
+
 export default {
   name: "Home",
   components: {
@@ -127,16 +133,32 @@ export default {
   },
   data() {
     return {
-      homeScrollOptions: {
-        click: true,
-        observeDOM: true,
-        probeType: 2,
-        pullUpLoad: true
-      }
+      // 1. better-scroll 配置
+      homeScrollOptions,
+      // 2. swiper 的图片列表
+      bannerList: [],
+      // 3. 推荐图片列表
+      recommendList: []
     };
   },
-  mounted() {},
+  mounted() {
+    // 1. 执行获取数据
+    this.getMultiData();
+  },
   methods: {
+    // 2. 获取数据的方法
+    async getMultiData() {
+      const res = await getMultiData();
+      // 如果没有获取过程出错 返回的是 undefined
+      if (res) {
+        const data = res.data;
+        // 这里 两种写法 都可以。。。。
+        this.bannerList.push(...data.banner.list);
+        this.recommendList = data.recommend.list;
+        console.log(this.bannerList);
+        console.log(this.recommendList);
+      }
+    },
     // 1. better-scroll 的事件
     handlePullUpEvent() {
       console.log("home handlePullUpEvent");
