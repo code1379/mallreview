@@ -10,6 +10,8 @@
     >
       <!-- 首页上的内容插入到这里 -->
       <HomeSwiper :bannerList="bannerList" />
+      <HomeRecommend :recommendList="recommendList" />
+      <HomeTrend />
       <div class="wrapper">
         <p>1</p>
         <p>2</p>
@@ -119,8 +121,10 @@
 <script>
 // @ is an alias to /src
 import HomeTopBar from "./childComps/HomeTopBar";
-import HomeSwiper from "./childComps/HomeSwiper";
 import Scroll from "cn/scroll/Scroll";
+import HomeSwiper from "./childComps/HomeSwiper";
+import HomeRecommend from "./childComps/HomeRecommend";
+import HomeTrend from "./childComps/HomeTrend";
 // 获取数据
 import { getMultiData } from "network/home";
 // 一些小配置
@@ -131,7 +135,9 @@ export default {
   components: {
     HomeTopBar,
     Scroll,
-    HomeSwiper
+    HomeSwiper,
+    HomeRecommend,
+    HomeTrend
   },
   data() {
     return {
