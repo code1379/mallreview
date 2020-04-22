@@ -1,5 +1,5 @@
 <template>
-  <div class="good-item">
+  <div class="good-item" @click="goToDetailPage">
     <img class="good-img" :src="good.show.img" alt />
     <div class="title">{{good.title}}</div>
     <div class="desc">
@@ -21,6 +21,16 @@ export default {
       default() {
         return {};
       }
+    }
+  },
+  methods: {
+    goToDetailPage() {
+      this.$router.push({
+        name: "Detail",
+        params: {
+          iid: this.good.iid
+        }
+      });
     }
   }
 };

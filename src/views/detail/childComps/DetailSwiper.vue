@@ -1,9 +1,7 @@
 <template>
-  <swiper class="home-swiper" ref="mySwiper" :options="swiperOptions">
-    <swiper-slide v-for="banner in bannerList" :key="banner.title">
-      <a :href="banner.link">
-        <img class="banner-image" :src="banner.image" :alt="banner.title" />
-      </a>
+  <swiper class="detail-swiper" ref="mySwiper" :options="swiperOptions">
+    <swiper-slide v-for="(banner, index) in bannerList" :key="index">
+      <img class="banner-image" :src="banner" :alt="banner.title" />
     </swiper-slide>
     <div class="swiper-pagination" slot="pagination"></div>
   </swiper>
@@ -14,7 +12,7 @@ import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 
 export default {
-  name: "HomeSwiper",
+  name: "DetailSwiper",
   components: {
     Swiper,
     SwiperSlide
@@ -31,11 +29,8 @@ export default {
     return {
       swiperOptions: {
         pagination: {
-          el: ".swiper-pagination",
-          clickable: true
-        },
-        autoplay: true,
-        loop: true
+          el: ".swiper-pagination"
+        }
       }
     };
   }
@@ -43,9 +38,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.home-swiper
+.detail-swiper
   height: 0
-  padding-bottom: 52%
+  padding-bottom: 85%
   background: #ffffff
   .banner-image
     width: 100%

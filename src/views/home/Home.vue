@@ -143,7 +143,9 @@ export default {
     handleChangeNavIndex(index) {
       this.currentIndex = index;
       // 顺便回到 innerNavBar 的位置
-      this.scroll.scrollToElement(this.innerNav.$el);
+      if (this.currentY >= this.innerNavOffsetTop) {
+        this.scroll.scrollToElement(this.innerNav.$el);
+      }
     }
   },
   computed: {
