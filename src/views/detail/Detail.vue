@@ -3,7 +3,7 @@
     <DetailTopBar
       :navs="navs"
       :currentIndex="currentIndex"
-      @scrollToMapElement="handleScrollToElement"
+      @changeCurrentIndex="handleChangeCurrentIndex"
       ref="topnav"
     />
     <Scroll
@@ -36,6 +36,7 @@ import DetailParams from "./childComps/DetailParams";
 import DetailComment from "./childComps/DetailComment";
 import DetailRecommend from "./childComps/DetailRecommend";
 import DetailBottomBar from "./childComps/DetailBottomBar";
+
 import { shopInfoDataConstructor } from "./dataConstructor";
 export default {
   name: "Detail",
@@ -104,11 +105,21 @@ export default {
     // 处理滚动位置
     handleCurrentPositionY(y) {
       // console.log(y, "scroll listen");
-      console.log(this.heightList);
+      // console.log(this.heightList);
+      // [0, 15240, 16263, 16399, 1.7976931348623157e+308]
+      // 作比较
+      for (let i = 0; i < this.heightList.length; i++) {
+        if (i !== this.currentIndex) {
+          if (y > this.heightList[i] && y < this.heightList[i + 1]) {
+            this.currentIndex = i;
+          }
+        }
+      }
     },
     // 处理topbar滚动到指定位置
-    handleScrollToElement(index) {
-      console.log(index, "get");
+    handleChangeCurrentIndex(index) {
+      // console.log(index, "get");
+      this.currentIndex = index;
       this.scroll.scrollTo(this.heightList[index]);
       // switch (index) {
       //   case 0:

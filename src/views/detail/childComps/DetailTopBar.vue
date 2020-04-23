@@ -8,8 +8,8 @@
         class="item"
         v-for="(item, index) in navs"
         :key="item"
-        :class="{active: index === myCurrentIndex}"
-        @click="changeIndex(index)"
+        :class="{active: index === currentIndex}"
+        @click="changeIndexAndSend(index)"
       >{{item}}</div>
     </div>
   </TopBar>
@@ -31,11 +31,7 @@ export default {
       default: 0
     }
   },
-  data() {
-    return {
-      myCurrentIndex: this.currentIndex
-    };
-  },
+
   components: {
     TopBar
   },
@@ -43,9 +39,8 @@ export default {
     goBack() {
       this.$router.go(-1);
     },
-    changeIndex(index) {
-      this.myCurrentIndex = index;
-      this.$emit("scrollToMapElement", index);
+    changeIndexAndSend(index) {
+      this.$emit("changeCurrentIndex", index);
     }
   }
 };
