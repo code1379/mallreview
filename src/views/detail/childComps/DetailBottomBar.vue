@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="right">
-      <div class="cart">
+      <div class="cart" @click="addToCart">
         <!-- <img class="cart-img" src="~assets/images/detail/cart.png" alt /> -->
         加入购物车
       </div>
@@ -26,7 +26,13 @@
 
 <script>
 export default {
-  name: "DetailBottomBar"
+  name: "DetailBottomBar",
+  methods: {
+    addToCart() {
+      console.log("click");
+      this.$toast.showMessage("添加到购物车");
+    }
+  }
 };
 </script>
 
