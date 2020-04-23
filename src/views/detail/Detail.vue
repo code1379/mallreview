@@ -8,6 +8,7 @@
         @changeCurrentIndex="handleChangeCurrentIndex"
         ref="topnav"
       />
+      <BackTop v-show="isShowBackTop" />
       <Scroll
         class="detail-scroll"
         :scrollOptions="scrollOptions"
@@ -43,8 +44,10 @@ import { debounce } from "common/util";
 import { shopInfoDataConstructor } from "./dataConstructor";
 // vuex
 import { mapActions } from "vuex";
+import { backTopMixin } from "common/mixins";
 export default {
   name: "Detail",
+  mixins: [backTopMixin],
   components: {
     DetailTopBar,
     Scroll,
@@ -78,7 +81,8 @@ export default {
         observeDOM: true,
         probeType: 2
       },
-      currentIndex: 0
+      currentIndex: 0,
+      currentY: 0
     };
   },
   mounted() {
@@ -134,6 +138,7 @@ export default {
       // console.log(this.heightList);
       // [0, 15240, 16263, 16399, 1.7976931348623157e+308]
       // 作比较
+      this.currentY = y;
       if (this.heightList && this.heightList.length !== 0) {
         for (let i = 0; i < this.heightList.length; i++) {
           if (i !== this.currentIndex) {

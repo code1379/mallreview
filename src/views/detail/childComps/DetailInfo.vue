@@ -7,7 +7,7 @@
       <div class="discount" :style="discountStyle" v-if="info.discountDesc">{{info.discountDesc}}</div>
     </div>
     <div class="nums-desc">
-      <div class="item sell-nums">销量{{info.numberDescs[0]}}</div>
+      <div class="item sell-nums">销量{{info.numberDescs[0] }}</div>
       <div class="item fav-nums">收藏{{info.numberDescs[1]}}</div>
       <div class="item promise">{{info.numberDescs[2]}}</div>
     </div>

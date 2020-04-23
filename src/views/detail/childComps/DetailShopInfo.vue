@@ -9,7 +9,7 @@
     <div class="shop-desc">
       <div class="left">
         <div class="item sell-count">
-          <div class="count">{{shopInfo.sells}}</div>
+          <div class="count">{{shopInfo.sells|formatNums}}</div>
           <div class="title">总销量</div>
         </div>
         <div class="item all-goods">
@@ -45,6 +45,12 @@ export default {
       default() {
         return {};
       }
+    }
+  },
+  filters: {
+    formatNums(value) {
+      console.log(value);
+      return value >= 10000 ? (value / 10000).toFixed(2) + "万" : value;
     }
   }
 };

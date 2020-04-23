@@ -10,7 +10,7 @@
           <img class="avatar-image" :src="comment.user.avatar" alt />
           <div class="content">{{comment.content}}</div>
           <div class="desc">
-            <div class="time">{{comment.created}}</div>
+            <div class="time">{{comment.created | formatDate}}</div>
             <div class="style">{{comment.style}}</div>
           </div>
         </div>
@@ -20,14 +20,22 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "DetailComment",
+
   props: {
     rate: {
       type: Object,
       default() {
         return {};
       }
+    }
+  },
+  filters: {
+    formatDate(value) {
+      return moment(value * 1000).format("YYYY-MM-DD hh:mm:ss");
     }
   }
 };

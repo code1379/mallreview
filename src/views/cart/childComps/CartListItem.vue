@@ -3,7 +3,10 @@
     <div class="select" @click="changeItemSelectStatu(item.iid)">
       <div class="select-icon" :class="{active: item.isSelect}"></div>
     </div>
-    <img class="item-img" :src="item.imgUrl" alt />
+    <div class="img-container">
+      <img :src="item.imgUrl" alt />
+    </div>
+
     <div class="desc">
       <div class="title">{{item.title}}</div>
       <div class="info">
@@ -59,11 +62,15 @@ export default {
         background-image: url('~assets/images/cart/tick.svg')
         background-position: center
         background-repeat: no-repeat
-  .item-img
+  .img-container
     width: 80px
     height: 120px
     border-radius: 10px
+    overflow: hidden
+    img
+      width: 100%
   .desc
+    flex: 1
     display: flex
     padding: 10px
     flex-direction: column

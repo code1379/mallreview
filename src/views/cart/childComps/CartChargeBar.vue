@@ -12,12 +12,7 @@
 export default {
   name: "CartChangeBar",
   props: {
-    totalPrice: {
-      type: Number,
-      default() {
-        return 0;
-      }
-    },
+    totalPrice: String,
     isAllSelect: {
       type: Boolean,
       default: false
