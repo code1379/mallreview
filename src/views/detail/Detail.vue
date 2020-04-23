@@ -1,26 +1,29 @@
 <template>
-  <div class="detail" :key="iid">
-    <DetailTopBar
-      :navs="navs"
-      :currentIndex="currentIndex"
-      @changeCurrentIndex="handleChangeCurrentIndex"
-      ref="topnav"
-    />
-    <Scroll
-      class="detail-scroll"
-      :scrollOptions="scrollOptions"
-      @sendCurrentPositionY="handleCurrentPositionY"
-      ref="scroll"
-    >
-      <DetailSwiper :bannerList="bannerList" ref="swiper" />
-      <DetailInfo :info="info" />
-      <DetailShopInfo :shopInfo="shopInfo" />
-      <DetailGallery :galleryInfo="galleryInfo" />
-      <DetailParams :itemParams="itemParams" ref="params" />
-      <DetailComment :rate="rate" ref="comment" />
-      <DetailRecommend ref="recommend" />
-    </Scroll>
-    <DetailBottomBar />
+  <div class="detail">
+    <div class="inner" :key="iid
+    ">
+      <DetailTopBar
+        :navs="navs"
+        :currentIndex="currentIndex"
+        @changeCurrentIndex="handleChangeCurrentIndex"
+        ref="topnav"
+      />
+      <Scroll
+        class="detail-scroll"
+        :scrollOptions="scrollOptions"
+        @sendCurrentPositionY="handleCurrentPositionY"
+        ref="scroll"
+      >
+        <DetailSwiper :bannerList="bannerList" ref="swiper" />
+        <DetailInfo :info="info" />
+        <DetailShopInfo :shopInfo="shopInfo" />
+        <DetailGallery :galleryInfo="galleryInfo" />
+        <DetailParams :itemParams="itemParams" ref="params" />
+        <DetailComment :rate="rate" ref="comment" />
+        <DetailRecommend ref="recommend" />
+      </Scroll>
+      <DetailBottomBar @addToCart="handleAddToCart" />
+    </div>
   </div>
 </template>
 
@@ -38,6 +41,8 @@ import DetailRecommend from "./childComps/DetailRecommend";
 import DetailBottomBar from "./childComps/DetailBottomBar";
 import { debounce } from "common/util";
 import { shopInfoDataConstructor } from "./dataConstructor";
+// vuex
+import { mapActions } from "vuex";
 export default {
   name: "Detail",
   components: {
@@ -88,24 +93,40 @@ export default {
       this.comment = this.$refs.comment;
       this.recommend = this.$refs.recommend;
       this.debounceScrollRefresh = debounce(() => {
-        console.log("hi");
+        // console.log("hi got images");
         this.scroll.refresh();
+
+        // 这里有问题 vue-router 复用，第二次init 就获取不到对应的高度了
+        // console.log(this.params, this.params.$el.offsetTop);
+        this.heightList = [
+          0,
+          this.params && this.params.$el.offsetTop,
+          this.comment && this.comment.$el.offsetTop,
+          this.recommend && this.recommend.$el.offsetTop,
+          Number.MAX_VALUE
+        ];
       });
       this.$bus.$on("goodImageLoadOver", this.debounceScrollRefresh);
+      this.currentIndex = 0;
     },
+    // vuex map
+    ...mapActions({
+      add: "asyncAddToCart"
+    }),
     //  获取数据
     async getGoodDetail() {
       const res = await getGoodDetail(this.iid);
-      // console.log(res);
-      const { itemInfo, columns, shopInfo } = res.result;
-      // 轮播图图片
-      this.bannerList = itemInfo.topImages;
-      // 商品信息
-      this.good = new Good(itemInfo, columns, shopInfo);
-      this.shopInfo = new shopInfoDataConstructor(res.result.shopInfo);
-      this.galleryInfo = res.result.detailInfo;
-      this.itemParams = res.result.itemParams;
-      this.rate = res.result.rate;
+      if (res) {
+        const { itemInfo, columns, shopInfo } = res.result;
+        // 轮播图图片
+        this.bannerList = itemInfo.topImages;
+        // 商品信息
+        this.good = new Good(itemInfo, columns, shopInfo);
+        this.shopInfo = new shopInfoDataConstructor(res.result.shopInfo);
+        this.galleryInfo = res.result.detailInfo;
+        this.itemParams = res.result.itemParams;
+        this.rate = res.result.rate;
+      }
     },
     // 处理滚动位置
     handleCurrentPositionY(y) {
@@ -113,10 +134,12 @@ export default {
       // console.log(this.heightList);
       // [0, 15240, 16263, 16399, 1.7976931348623157e+308]
       // 作比较
-      for (let i = 0; i < this.heightList.length; i++) {
-        if (i !== this.currentIndex) {
-          if (y > this.heightList[i] && y < this.heightList[i + 1]) {
-            this.currentIndex = i;
+      if (this.heightList && this.heightList.length !== 0) {
+        for (let i = 0; i < this.heightList.length; i++) {
+          if (i !== this.currentIndex) {
+            if (y > this.heightList[i] && y < this.heightList[i + 1]) {
+              this.currentIndex = i;
+            }
           }
         }
       }
@@ -124,8 +147,15 @@ export default {
     // 处理topbar滚动到指定位置
     handleChangeCurrentIndex(index) {
       // console.log(index, "get");
-      this.currentIndex = index;
-      this.scroll.scrollTo(this.heightList[index]);
+      if (this.heightList && this.heightList.length) {
+        console.log(index);
+        console.log(this.heightList);
+        this.currentIndex = index;
+        console.log(this.scroll);
+        console.log(this.heightList[index]);
+        this.scroll.scrollTo(this.heightList[index]);
+      }
+
       // switch (index) {
       //   case 0:
       //     this.scroll.scrollTo(0);
@@ -140,6 +170,20 @@ export default {
       //     this.scroll.scrollToElement(this.recommend.$el);
       //     break;
       // }
+    },
+    // 处理加入购物车
+    handleAddToCart() {
+      // console.log("handleAddToCart");
+      // console.log(this.good);
+      // console.log(this.bannerList);
+      const product = {
+        title: this.good.title,
+        price: this.good.lowNowPrice,
+        iid: this.good.iid,
+        imgUrl: this.bannerList[0]
+      };
+      this.add(product);
+      this.$toast.showMessage("添加到购物车");
     },
     // 制作info
     createInfo(good) {
@@ -167,19 +211,26 @@ export default {
       } else {
         return {};
       }
-    },
-    heightList() {
-      return [
-        0,
-        this.params && this.params.$el.offsetTop,
-        this.comment.$el.offsetTop,
-        this.recommend.$el.offsetTop,
-        Number.MAX_VALUE
-      ];
     }
+    // heightList() {
+    //   return [
+    //     0,
+    //     this.params && this.params.$el.offsetTop,
+    //     this.comment.$el.offsetTop,
+    //     this.recommend.$el.offsetTop,
+    //     Number.MAX_VALUE
+    //   ];
+    // }
   },
   updated() {
     // console.log("detail updated");
+    // this.heightList = [
+    //   0,
+    //   this.params && this.params.$el.offsetTop,
+    //   this.comment.$el.offsetTop,
+    //   this.recommend.$el.offsetTop,
+    //   Number.MAX_VALUE
+    // ];
   },
   beforeDestroy() {
     console.log("detail beforeDestory");
@@ -188,7 +239,7 @@ export default {
   watch: {
     $route(to, from) {
       if (to.params.iid !== from.params.iid) {
-        this.getGoodDetail();
+        this.init();
       }
     }
   }

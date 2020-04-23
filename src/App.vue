@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <keep-alive exclude="Detail">
-      <router-view />
+      <router-view :key="$route.path" />
     </keep-alive>
     <TabBar />
   </div>

@@ -38,6 +38,24 @@ export default {
         loop: true
       }
     };
+  },
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.$swiper;
+    }
+  },
+  mounted() {
+    console.log("Current Swiper instance object", this.swiper);
+  },
+  methods: {
+    pause() {
+      console.log("homeswiper pause");
+      this.swiper && this.swiper.pause && this.swiper.pause();
+    },
+    run() {
+      console.log("homeswiper run");
+      this.swiper && this.swiper.run && this.swiper.run();
+    }
   }
 };
 </script>

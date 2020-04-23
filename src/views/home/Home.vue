@@ -17,7 +17,7 @@
       ref="scroll"
     >
       <!-- 首页上的内容插入到这里 -->
-      <HomeSwiper :bannerList="bannerList" />
+      <HomeSwiper :bannerList="bannerList" ref="swiper" />
       <HomeRecommend :recommendList="recommendList" />
       <HomeTrend />
       <NavBar :currentIndex="currentIndex" @sendChangeIndex="handleChangeNavIndex" ref="innerNav" />
@@ -75,6 +75,7 @@ export default {
       isShowOuterNav: false,
       // 7. 设置初始的currentY
       currentY: 0
+      // leaveY: 0
     };
   },
   mounted() {
@@ -96,6 +97,8 @@ export default {
     // 3. 内部innerNav到父元素顶部的高度 大于等于这个高度时显示 outerNav
     this.innerNavOffsetTop = this.innerNav.$el.offsetTop;
     // console.log(this.innerNavOffsetTop);
+    // 4. 获取 swiper 对象
+    this.swiper = this.$refs.swiper;
   },
   methods: {
     // 2. 获取数据
@@ -157,6 +160,19 @@ export default {
     currentGoodsType() {
       return this.allTypesgoods[this.currentIndex].type;
     }
+  },
+  activated() {
+    console.log("home active");
+    // this.scroll.scrollTo(this.leaveY);
+    // setTimeout(() => {
+    //   this.swiper.run();
+    // }, 3000);
+  },
+  deactivated() {
+    console.log("home deactive");
+    // this.swiper.pause();
+    // this.leaveY = this.currentY;
+    // console.log(this.leaveY);
   }
 };
 </script>

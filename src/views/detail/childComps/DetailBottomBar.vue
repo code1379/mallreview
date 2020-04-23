@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="right">
-      <div class="cart" @click="addToCart">
+      <div class="cart" @click="handleClick">
         <!-- <img class="cart-img" src="~assets/images/detail/cart.png" alt /> -->
         加入购物车
       </div>
@@ -28,9 +28,9 @@
 export default {
   name: "DetailBottomBar",
   methods: {
-    addToCart() {
-      console.log("click");
-      this.$toast.showMessage("添加到购物车");
+    handleClick() {
+      // console.log("click");
+      this.$emit("addToCart");
     }
   }
 };

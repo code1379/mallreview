@@ -1,17 +1,20 @@
 <template>
-  <TopBar bgcolor="#FF8198">
-    <span slot="center">首页</span>
+  <TopBar class="cart">
+    <span slot="center">购物车</span>
   </TopBar>
 </template>
 
 <script>
 import TopBar from "cn/topBar/TopBar";
 export default {
+  name: "CartTopBar",
   components: {
     TopBar
   }
 };
 </script>
 
-<style>
+<style lang="stylus" scoped>
+.cart
+  background-color: #FF8198
 </style>
