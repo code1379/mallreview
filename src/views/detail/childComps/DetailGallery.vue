@@ -6,7 +6,7 @@
       <div class="right line"></div>
     </div>
 
-    <div class="cate" v-for="cate in galleryInfo.detailImage" :key="cate.anchor">
+    <div class="cate" v-for="cate in galleryInfo.detailImage.slice(0,1)" :key="cate.anchor">
       <div class="keyword">{{cate.key}}</div>
       <div v-for="(imgUrl, index) in cate.list" :key="index">
         <img class="gallery-image" :src="imgUrl" alt />

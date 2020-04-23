@@ -1,10 +1,12 @@
 <template>
-  <swiper class="detail-swiper" ref="mySwiper" :options="swiperOptions">
-    <swiper-slide v-for="(banner, index) in bannerList" :key="index">
-      <img class="banner-image" :src="banner" :alt="banner.title" />
-    </swiper-slide>
-    <div class="swiper-pagination" slot="pagination"></div>
-  </swiper>
+  <div class="detail-swiper">
+    <swiper ref="mySwiper" :options="swiperOptions" v-if="bannerList.length !== 0">
+      <swiper-slide v-for="(banner, index) in bannerList" :key="index">
+        <img class="banner-image" :src="banner" :alt="banner.title" />
+      </swiper-slide>
+      <div class="swiper-pagination" slot="pagination"></div>
+    </swiper>
+  </div>
 </template>
 
 <script>
@@ -42,6 +44,10 @@ export default {
   height: 0
   padding-bottom: 85%
   background: #ffffff
-  .banner-image
-    width: 100%
+  overflow: hidden
+  .swiper-container
+    height: 0
+    padding-bottom: 85%
+    .banner-image
+      width: 100%
 </style>

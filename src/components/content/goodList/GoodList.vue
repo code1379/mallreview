@@ -1,5 +1,5 @@
 <template>
-  <div class="good-list">
+  <div class="good-list" v-if="goods.length!== 0">
     <GoodItem v-for="(good, index) in goods" :key="index" :good="good" />
   </div>
 </template>
@@ -12,7 +12,7 @@ export default {
     goods: {
       type: Array,
       default() {
-        return {};
+        return [];
       }
     }
   },

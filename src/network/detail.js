@@ -1,5 +1,9 @@
 import { request } from './request'
 
+// 1m70y5k 7 位
+// item_id: "1kkf1di"
+// shop_id: "1pzayc"
+// http://106.54.54.237:8000/api/h8/detail?iid=1m70y5k
 export function getGoodDetail(iid) {
   return request({
     url: '/detail',

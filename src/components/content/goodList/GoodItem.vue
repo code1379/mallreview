@@ -1,6 +1,7 @@
 <template>
-  <div class="good-item" @click="goToDetailPage">
-    <img class="good-img" :src="good.show.img" alt />
+  <div class="good-item" @click="goToDetailPage" v-if="Object.keys(good).length !== 0 ">
+    <!-- 先读取层级比较浅的 -->
+    <img class="good-img" :src=" good.image || good.show.img   " alt />
     <div class="title">{{good.title}}</div>
     <div class="desc">
       <span class="price">￥{{good.price}}</span>
@@ -23,12 +24,15 @@ export default {
       }
     }
   },
+  mounted() {
+    // console.log(this.good);
+  },
   methods: {
     goToDetailPage() {
       this.$router.push({
         name: "Detail",
         params: {
-          iid: this.good.iid
+          iid: this.good.iid || this.good.item_id
         }
       });
     }
