@@ -36,7 +36,7 @@ import DetailParams from "./childComps/DetailParams";
 import DetailComment from "./childComps/DetailComment";
 import DetailRecommend from "./childComps/DetailRecommend";
 import DetailBottomBar from "./childComps/DetailBottomBar";
-
+import { debounce } from "common/util";
 import { shopInfoDataConstructor } from "./dataConstructor";
 export default {
   name: "Detail",
@@ -87,6 +87,11 @@ export default {
       this.params = this.$refs.params;
       this.comment = this.$refs.comment;
       this.recommend = this.$refs.recommend;
+      this.debounceScrollRefresh = debounce(() => {
+        console.log("hi");
+        this.scroll.refresh();
+      });
+      this.$bus.$on("goodImageLoadOver", this.debounceScrollRefresh);
     },
     //  获取数据
     async getGoodDetail() {
@@ -177,7 +182,8 @@ export default {
     // console.log("detail updated");
   },
   beforeDestroy() {
-    // console.log("detail beforeDestory");
+    console.log("detail beforeDestory");
+    this.$bus.$off("goodImageLoadOver", this.debounceScrollRefresh);
   },
   watch: {
     $route(to, from) {

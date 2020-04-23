@@ -37,6 +37,7 @@ export default {
       });
     },
     goodImageLoadOver() {
+      // console.log("imageLoadOver");
       this.$bus.$emit("goodImageLoadOver");
     }
   }
